@@ -15,7 +15,7 @@ class EventController() {
 
     @GetMapping("/events")
     fun get(@RequestParam prettier: String?): Any =
-        if(prettier == null) repository.findAll() else Letter.prettier(repository.findAll())
+        if (prettier == null) repository.findAll() else Letter.prettier(repository.findAll())
 
     companion object Letter {
         val unitsString = arrayOf(
@@ -40,7 +40,7 @@ class EventController() {
             "seven thousand", "eight thousand", "nine thousand", "ten thousand"
         )
 
-        fun prettier( events: List<Event>): Any {
+        fun prettier(events: List<Event>): Any {
             return events.filter { it.date.isNotEmpty() && it.date.length == 4 }
                 .map {
                     val tenthAndUnit: String = when ("""${it.date[2]}${it.date[3]}""".toInt()) {

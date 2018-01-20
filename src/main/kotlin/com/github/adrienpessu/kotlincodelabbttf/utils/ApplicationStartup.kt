@@ -15,16 +15,17 @@ import java.io.File
 @Component
 class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
 
-    @Autowired lateinit var repository: EventRepository
+    @Autowired
+    lateinit var repository: EventRepository
 
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
 
         val json: String = File(javaClass.getResource("events.json").path)
-                .inputStream().bufferedReader()
-                .use { it.readText() }
+            .inputStream().bufferedReader()
+            .use { it.readText() }
 
         val mapper = ObjectMapper().registerModule(KotlinModule())
-        val events : List<Event> = mapper.readValue(json)
+        val events: List<Event> = mapper.readValue(json)
         events.forEach { repository.save(it) }
     }
 
