@@ -1,7 +1,6 @@
 package com.github.adrienpessu.kotlincodelabbttf.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.adrienpessu.kotlincodelabbttf.models.Event
@@ -11,7 +10,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
 import java.io.File
-import java.util.*
 
 
 @Component
@@ -21,7 +19,9 @@ class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
 
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
 
-        val json: String = File(javaClass.getResource("events.json").path).inputStream().bufferedReader().use { it.readText() }
+        val json: String = File(javaClass.getResource("events.json").path)
+                .inputStream().bufferedReader()
+                .use { it.readText() }
 
         val mapper = ObjectMapper().registerModule(KotlinModule())
         val events : List<Event> = mapper.readValue(json)
